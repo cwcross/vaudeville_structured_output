@@ -17,7 +17,7 @@ import pandas as pd
 
 
 st.title("Vaudeville play: structured output of musical moments")
-st.set_page_config("centered")
+st.set_page_config(title = "Vaudeville Structured Analysis",layout = "centered")
 
 # Initialize session state if it doesn't exist
 if "entry_granted" not in st.session_state:
