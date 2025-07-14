@@ -254,32 +254,17 @@ else:
         # Convert all MusicalMoment objects to dicts
         moments_dicts = [moment.model_dump() for moment in all_moments]
 
-        # Prepare in-memory CSV string
-        output = io.StringIO()
-        fieldnames = moments_dicts[0].keys() if moments_dicts else []
-        writer = csv.DictWriter(output, fieldnames=fieldnames)
-        writer.writeheader()
-        for row in moments_dicts:
-            for key, value in row.items():
-                if isinstance(value, list):
-                    row[key] = "; ".join(str(v) for v in value)
-            writer.writerow(row)
-
-        # Convert StringIO to bytes for download
-        csv_bytes = output.getvalue().encode("utf-8")
-
-        st.markdown("<br> ### Download your CSV here:")
-        # Display download button
-        st.download_button(
-            label="Download CSV",
-            data=csv_bytes,
-            file_name="musical_moments.csv",
-            mime="text/csv",
-            use_container_width = True
-        )
-
-        
-
         df = pd.DataFrame(moments_dicts)
-        st.markdown("### Musical Moments Preview")
+        st.markdown("### View and Download")
         st.dataframe(df, use_container_width=True)
+
+        st.markdown("To upload to Google Sheets:" \
+        "1. New Spreadsheet" \
+        "2. File" \
+        "3. Import" \
+        "4. Upload" \
+        "5. Select File" \
+        "6. Choose import location" \
+        "7. Set separator type to comma" \
+        "8. Press import data" \
+        "9. Optional: Convert to table and format")
