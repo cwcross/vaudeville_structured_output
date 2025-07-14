@@ -27,6 +27,8 @@ if "entry_granted" not in st.session_state:
 
 # Show login form only if access hasn't been granted yet
 if not st.session_state.entry_granted:
+    st.write("To use this app, you need to provide an OpenAI API key, which you can get [here](https://platform.openai.com/account/api-keys). \n"
+    "Or, enter the passcode we provided to use ours. \n")
     with st.form("auth_form"):
         openai_api_key = st.text_input("OpenAI API Key", type="password")
         password = st.text_input("Password", type="password")
@@ -48,8 +50,7 @@ if not st.session_state.entry_granted:
 else:
     st.write(
     "Upload a document below and an OpenAI model will return a csv file of musical moments that you can import to excel or google sheets. \n"
-    "To use this app, you need to provide an OpenAI API key, which you can get [here](https://platform.openai.com/account/api-keys). \n"
-    "Or, you can enter the passcode we provided to use ours. \n\nThis app can take up to 5 minutes to run, depending on the size of the play. Please do not refresh while it's running.\n"
+    "This app can take up to 5 minutes to run, depending on the size of the play. Please do not refresh while it's running.\n"
 )
 
     # Let the user upload a file via `st.file_uploader`.
