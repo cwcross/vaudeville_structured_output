@@ -32,16 +32,15 @@ if not st.session_state.entry_granted:
             os.environ["OPENAI_API_KEY"] = openai_api_key
             st.session_state.entry_granted = True
             st.success("Access granted using your API key.")
+            st.experimental_rerun()
         elif password and password == st.secrets["entry_password"]:
             os.environ["OPENAI_API_KEY"] = st.secrets["RF_API_KEY"]
             st.session_state.entry_granted = True
             st.success("Access granted using the provided password.")
+            st.experimental_rerun()
         else:
             st.error("Invalid API key or password.")
 else:
-    st.success("Access granted. You may now use the app.")
-
-if st.session_state.entry_granted:
     st.write(
     "Upload a document below and an OpenAI model will return a csv file that you can import to excel or google sheets. "
     "To use this app, you need to provide an OpenAI API key, which you can get [here](https://platform.openai.com/account/api-keys). "
