@@ -9,6 +9,7 @@ from typing_extensions import List, TypedDict, Optional
 from langchain_core.prompts import ChatPromptTemplate
 from typing import Optional, List
 from pydantic import BaseModel, Field
+from langchain.chat_models import init_chat_model
 
 
 # Show title and description.
@@ -58,12 +59,10 @@ else:
         #  PDF Loading
         ##############
 
-        async def loadPDF() -> list:
+        def loadPDF() -> list:
             loader = PyPDFLoader(uploaded_file)
-            pages = []
-            async for page in loader.alazy_load():
-                pages.append(page)   
-            return pages
+            return loader.load()
+
 
         source = loadPDF()
 
@@ -76,7 +75,6 @@ else:
         # Breaking up the PDF into scenes
         #################################
 
-        from langchain.chat_models import init_chat_model
 
         llm = init_chat_model("gpt-4o", model_provider="openai")
         processing_llm = init_chat_model("gpt-4o-mini", model_provider="openai")
