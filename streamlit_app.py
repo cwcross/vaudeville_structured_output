@@ -49,7 +49,7 @@ else:
     st.write(
     "Upload a document below and an OpenAI model will return a csv file that you can import to excel or google sheets. "
     "To use this app, you need to provide an OpenAI API key, which you can get [here](https://platform.openai.com/account/api-keys). "
-    "Or, you can enter the passcode we provided to use ours."
+    "Or, you can enter the passcode we provided to use ours. This app can take up to 5 minutes to run, depending on the size of the pla. Please do not refresh while it's running."
 )
 
     # Let the user upload a file via `st.file_uploader`.
