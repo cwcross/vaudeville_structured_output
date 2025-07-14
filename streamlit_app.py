@@ -18,6 +18,8 @@ st.write(
     "To use this app, you need to provide an OpenAI API key, which you can get [here](https://platform.openai.com/account/api-keys). Or, you can enter the passcode we provided to use ours."
 )
 
+entry_granted: bool = False
+
 # Ask user for their OpenAI API key via `st.text_input`.
 # Alternatively, you can store the API key in `./.streamlit/secrets.toml` and access it
 # via `st.secrets`, see https://docs.streamlit.io/develop/concepts/connections/secrets-management
@@ -27,7 +29,7 @@ if not openai_api_key and not password:
     st.info("Please add your OpenAI API key or the password we sent to continue.", icon="🗝️")
 else:
 
-    entry_granted: bool = False
+    
 
     if openai_api_key:
     # Create an OpenAI client.
