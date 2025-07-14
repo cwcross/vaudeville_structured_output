@@ -10,6 +10,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from typing import Optional, List
 from pydantic import BaseModel, Field
 from langchain.chat_models import init_chat_model
+import io
 
 
 # Show title and description.
@@ -245,16 +246,27 @@ else:
         fieldnames = moments_dicts[0].keys() if moments_dicts else []
 
         # Write to CSV
-        with open("musical_moments.csv", "w", newline='', encoding="utf-8") as csvfile:
-            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-            writer.writeheader()
-            for row in moments_dicts:
-                # Convert lists to strings for CSV output
-                for key, value in row.items():
-                    if isinstance(value, list):
-                        row[key] = "; ".join(str(v) for v in value)
-                writer.writerow(row)
-            
-            st.download_button('Download file', csvfile)
-        
-        del os.environ["OPENAI_API_KEY"]
+        # Convert all MusicalMoment objects to dicts
+        moments_dicts = [moment.model_dump() for moment in all_moments]
+
+        # Prepare in-memory CSV string
+        output = io.StringIO()
+        fieldnames = moments_dicts[0].keys() if moments_dicts else []
+        writer = csv.DictWriter(output, fieldnames=fieldnames)
+        writer.writeheader()
+        for row in moments_dicts:
+            for key, value in row.items():
+                if isinstance(value, list):
+                    row[key] = "; ".join(str(v) for v in value)
+            writer.writerow(row)
+
+        # Convert StringIO to bytes for download
+        csv_bytes = output.getvalue().encode("utf-8")
+
+        # Display download button
+        st.download_button(
+            label="Download CSV",
+            data=csv_bytes,
+            file_name="musical_moments.csv",
+            mime="text/csv"
+        )
