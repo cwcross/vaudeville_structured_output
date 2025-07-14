@@ -7,6 +7,9 @@ from langchain.document_loaders import PDFPlumberLoader
 from langchain_core.documents import Document
 from typing_extensions import List, TypedDict, Optional
 from langchain_core.prompts import ChatPromptTemplate
+from typing import Optional, List
+from pydantic import BaseModel, Field
+
 
 # Show title and description.
 st.title("Vaudeville play: structured output of musical moments")
@@ -52,18 +55,14 @@ else:
         #  PDF Loading
         ##############
 
-        async def loadPDF(filepath: str) -> list:
-            loader = PyPDFLoader(filepath)
+        async def loadPDF() -> list:
+            loader = PyPDFLoader(uploaded_file)
             pages = []
             async for page in loader.alazy_load():
                 pages.append(page)   
             return pages
 
-        filepath:str = input("Please enter the filepath: ")
-        source = loadPDF(filepath)
-
-        for page in source:
-                page.metadata['source'] = page.metadata['source'].replace("C:\\Users\\charl\\Documents\\VSCode\\Vaudeville\\Files\PDFs\\","")
+        source = loadPDF()
 
         source_content = ""
         for page in source:
@@ -74,15 +73,11 @@ else:
         # Breaking up the PDF into scenes
         #################################
 
-        import getpass
-        import os
-
         from langchain.chat_models import init_chat_model
 
         llm = init_chat_model("gpt-4o", model_provider="openai")
         processing_llm = init_chat_model("gpt-4o-mini", model_provider="openai")
-        from typing import Optional, List
-        from pydantic import BaseModel, Field
+        
 
         class Scene(BaseModel):
             """A single scene from a Vaudeville play"""
@@ -148,9 +143,6 @@ else:
         ############################
         # Pydantic and LangGraph
         ############################
-
-        from typing import Optional
-        from pydantic import BaseModel, Field
 
 
         # Pydantic
@@ -252,3 +244,5 @@ else:
                     if isinstance(value, list):
                         row[key] = "; ".join(str(v) for v in value)
                 writer.writerow(row)
+            
+            st.download_button('Download file', csvfile)

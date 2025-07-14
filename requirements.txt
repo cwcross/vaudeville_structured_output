@@ -5,8 +5,4 @@ langchain-core
 langchain-community
 langgraph
 pydantic
-tqdm
-python-dotenv
-pdfplumber
-PyPDF2
 typing-extensions
