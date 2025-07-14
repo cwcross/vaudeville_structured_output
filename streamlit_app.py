@@ -14,6 +14,8 @@ import io
 import pandas as pd
 
 # Show title and description.
+st.set_page_config("centered")
+
 st.title("Vaudeville play: structured output of musical moments")
 
 
