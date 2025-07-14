@@ -12,6 +12,8 @@ from pydantic import BaseModel, Field
 from langchain.chat_models import init_chat_model
 import io
 import pandas as pd
+from langgraph.graph import START, StateGraph
+
 
 # Show title and description.
 
@@ -83,7 +85,7 @@ else:
         source_full = Document(page_content = source_content, metadata = source[0].metadata)
 
         # Security: Prevents large documents with our API Key.
-        if len(source_full.page_content) > 100_000 and os.environ["OPENAI_API_KEY"] == st.secrets["RF_API_KEY"]:
+        if len(source_content) > 100_000 and os.environ["OPENAI_API_KEY"] == st.secrets["RF_API_KEY"]:
             st.warning("Your file is over 100,000 characters. Please use your own API key.")
             for key in st.session_state.keys():
                 del st.session_state[key]
@@ -132,7 +134,6 @@ else:
             response = formatted_splitter_llm.invoke(prompt)
             return response
         all_indexes = split_up_play(source_full)
-        from langchain_core.documents import Document
 
         all_splits = []
         scene_headers = all_indexes.all_scenes
@@ -198,10 +199,6 @@ else:
         Given the following chunk of the play, analyze and return the musical moments as a structured VaudevillePlay object.
         """
 
-
-        from typing_extensions import List, TypedDict, Optional
-        from langchain_core.prompts import ChatPromptTemplate
-
         prompt = ChatPromptTemplate.from_messages([
             ("system",system_prompt),
             ("human","Context:\n{context}\n\nQuestion:\n{question}")
@@ -225,7 +222,6 @@ else:
             response = structured_llm.invoke(message)
             return {"answer": response}
 
-        from langgraph.graph import START, StateGraph
 
         graph_builder = StateGraph(State).add_sequence([check_index, retrieve_doc, generate])
         graph_builder.add_edge(START, "check_index")
