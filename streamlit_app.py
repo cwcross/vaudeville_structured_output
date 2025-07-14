@@ -257,5 +257,4 @@ else:
             
             st.download_button('Download file', csvfile)
         
-if os.environ["OPENAI_API_KEY"]:
-    del os.environ["OPENAI_API_KEY"]
+        del os.environ["OPENAI_API_KEY"]
