@@ -59,11 +59,20 @@ else:
         #  PDF Loading
         ##############
 
+        import tempfile
+
         def loadPDF() -> list:
-            loader = PyPDFLoader(uploaded_file)
-            return loader.load()
+            # Write uploaded file to a temporary location
+            with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp_file:
+                tmp_file.write(uploaded_file.read())
+                tmp_path = tmp_file.name
 
+            loader = PyPDFLoader(tmp_path)
+            file = loader.load()
+            os.remove(tmp_path)
+            return file
 
+        
         source = loadPDF()
 
         source_content = ""
@@ -247,3 +256,6 @@ else:
                 writer.writerow(row)
             
             st.download_button('Download file', csvfile)
+        
+if os.environ["OPENAI_API_KEY"]:
+    del os.environ["OPENAI_API_KEY"]
