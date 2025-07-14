@@ -144,7 +144,7 @@ else:
             # Find the start index of this scene's header after the previous end index
             start_idx = full_text.find(scene.header, prev_end_idx)
             if start_idx == -1:
-                raise ValueError(f"Scene header not found: {scene.header}")
+                print(f"Scene header not found: {scene.header}")
 
             # Determine the end index: start of next scene header, or end of document
             if i + 1 < len(scene_headers):
