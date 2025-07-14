@@ -32,12 +32,12 @@ if not st.session_state.entry_granted:
             os.environ["OPENAI_API_KEY"] = openai_api_key
             st.session_state.entry_granted = True
             st.success("Access granted using your API key.")
-            st.experimental_rerun()
+            st.rerun()
         elif password and password == st.secrets["entry_password"]:
             os.environ["OPENAI_API_KEY"] = st.secrets["RF_API_KEY"]
             st.session_state.entry_granted = True
             st.success("Access granted using the provided password.")
-            st.experimental_rerun()
+            st.rerun()
         else:
             st.error("Invalid API key or password.")
 else:
