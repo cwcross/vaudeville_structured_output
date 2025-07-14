@@ -11,7 +11,7 @@ from typing import Optional, List
 from pydantic import BaseModel, Field
 from langchain.chat_models import init_chat_model
 import io
-
+import pandas as pd
 
 # Show title and description.
 st.title("Vaudeville play: structured output of musical moments")
@@ -263,6 +263,7 @@ else:
         # Convert StringIO to bytes for download
         csv_bytes = output.getvalue().encode("utf-8")
 
+        st.write("Download your CSV here:")
         # Display download button
         st.download_button(
             label="Download CSV",
@@ -271,3 +272,9 @@ else:
             mime="text/csv",
             use_container_width = True
         )
+
+        
+
+        df = pd.DataFrame(moments_dicts)
+        st.markdown("### Musical Moments Preview")
+        st.dataframe(df, use_container_width=True)
