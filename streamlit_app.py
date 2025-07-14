@@ -2,22 +2,35 @@ import streamlit as st
 from openai import OpenAI
 
 # Show title and description.
-st.title("📄 Document question answering")
+st.title("Vaudeville play: structured output of musical moments")
 st.write(
-    "Upload a document below and ask a question about it – GPT will answer! "
-    "To use this app, you need to provide an OpenAI API key, which you can get [here](https://platform.openai.com/account/api-keys). "
+    "Upload a document below and an OpenAI model will return a csv file that you can import to excel or google sheets. "
+    "To use this app, you need to provide an OpenAI API key, which you can get [here](https://platform.openai.com/account/api-keys). Or, you can enter the passcode we provided to use ours."
 )
 
 # Ask user for their OpenAI API key via `st.text_input`.
 # Alternatively, you can store the API key in `./.streamlit/secrets.toml` and access it
 # via `st.secrets`, see https://docs.streamlit.io/develop/concepts/connections/secrets-management
 openai_api_key = st.text_input("OpenAI API Key", type="password")
-if not openai_api_key:
-    st.info("Please add your OpenAI API key to continue.", icon="🗝️")
+password = st.text_input("Password", type="password")
+if not openai_api_key and not password:
+    st.info("Please add your OpenAI API key or the password we sent to continue.", icon="🗝️")
 else:
 
+    entry_granted: bool = False
+
+    if openai_api_key:
     # Create an OpenAI client.
-    client = OpenAI(api_key=openai_api_key)
+        client = OpenAI(api_key=openai_api_key)
+        entry_granted = True
+
+    if password
+
+
+if not entry_granted:
+    
+
+else:
 
     # Let the user upload a file via `st.file_uploader`.
     uploaded_file = st.file_uploader(
