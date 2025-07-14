@@ -17,7 +17,6 @@ import pandas as pd
 st.title("Vaudeville play: structured output of musical moments")
 
 
-
 # Initialize session state if it doesn't exist
 if "entry_granted" not in st.session_state:
     st.session_state.entry_granted = False
@@ -80,6 +79,14 @@ else:
         for page in source:
             source_content += page.page_content
         source_full = Document(page_content = source_content, metadata = source[0].metadata)
+
+        # Security: Prevents large documents with our API Key.
+        if len(source_full) > 100_000 and os.environ["OPENAI_API_KEY"] == st.secrets["RF_API_KEY"]:
+            st.warning("Your file is over 100,000 characters. Please use your own API key.")
+            for key in st.session_state.keys():
+                del st.session_state[key]
+            st.rerun()
+            
 
         #################################
         # Breaking up the PDF into scenes
