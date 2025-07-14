@@ -268,6 +268,6 @@ else:
             label="Download CSV",
             data=csv_bytes,
             file_name="musical_moments.csv",
-            mime="text/csv"
+            mime="text/csv",
             use_container_width = True
         )
