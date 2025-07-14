@@ -47,9 +47,9 @@ if not st.session_state.entry_granted:
             st.error("Invalid API key or password.")
 else:
     st.write(
-    "Upload a document below and an OpenAI model will return a csv file that you can import to excel or google sheets. "
-    "To use this app, you need to provide an OpenAI API key, which you can get [here](https://platform.openai.com/account/api-keys). "
-    "Or, you can enter the passcode we provided to use ours. This app can take up to 5 minutes to run, depending on the size of the pla. Please do not refresh while it's running."
+    "Upload a document below and an OpenAI model will return a csv file of musical moments that you can import to excel or google sheets. \n"
+    "To use this app, you need to provide an OpenAI API key, which you can get [here](https://platform.openai.com/account/api-keys). \n"
+    "Or, you can enter the passcode we provided to use ours. \n\nThis app can take up to 5 minutes to run, depending on the size of the play. Please do not refresh while it's running.\n"
 )
 
     # Let the user upload a file via `st.file_uploader`.
