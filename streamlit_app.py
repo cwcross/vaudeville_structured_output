@@ -83,7 +83,7 @@ else:
         source_full = Document(page_content = source_content, metadata = source[0].metadata)
 
         # Security: Prevents large documents with our API Key.
-        if len(source_full) > 100_000 and os.environ["OPENAI_API_KEY"] == st.secrets["RF_API_KEY"]:
+        if len(source_full.page_content) > 100_000 and os.environ["OPENAI_API_KEY"] == st.secrets["RF_API_KEY"]:
             st.warning("Your file is over 100,000 characters. Please use your own API key.")
             for key in st.session_state.keys():
                 del st.session_state[key]
