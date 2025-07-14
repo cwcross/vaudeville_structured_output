@@ -259,13 +259,13 @@ else:
         st.markdown("### View and Download")
         st.dataframe(df, use_container_width=True)
 
-        st.markdown("To upload to Google Sheets:\n" \
-        "1. New Spreadsheet\n" \
-        "2. File\n" \
-        "3. Import\n" \
-        "4. Upload\n" \
-        "5. Select File\n" \
-        "6. Choose import location\n" \
-        "7. Set separator type to comma\n" \
-        "8. Press import data\n" \
-        "9. Optional: Convert to table and format\n")
+        st.markdown("To upload to Google Sheets:<br>" \
+        "1. New Spreadsheet<br>" \
+        "2. File<br>" \
+        "3. Import<br>" \
+        "4. Upload<br>" \
+        "5. Select File<br>" \
+        "6. Choose import location<br>" \
+        "7. Set separator type to comma<br>" \
+        "8. Press import data<br>" \
+        "9. Optional: Convert to table and format<br>")
