@@ -268,7 +268,7 @@ else:
         # Convert StringIO to bytes for download
         csv_bytes = output.getvalue().encode("utf-8")
 
-        st.write("Download your CSV here:")
+        st.markdown("<br> ### Download your CSV here:")
         # Display download button
         st.download_button(
             label="Download CSV",
