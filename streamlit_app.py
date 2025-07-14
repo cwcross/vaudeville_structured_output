@@ -259,7 +259,7 @@ else:
         st.markdown("### View and Download")
         st.dataframe(df, use_container_width=True)
 
-        st.write("To upload to Google Sheets:\n" \
+        st.write("\nTo upload to Google Sheets:\n" \
         "1. New Spreadsheet\n" \
         "2. File\n" \
         "3. Import\n" \
