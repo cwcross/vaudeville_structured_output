@@ -14,31 +14,39 @@ from pydantic import BaseModel, Field
 # Show title and description.
 st.title("Vaudeville play: structured output of musical moments")
 
-st.write(
+
+
+# Initialize session state if it doesn't exist
+if "entry_granted" not in st.session_state:
+    st.session_state.entry_granted = False
+
+# Show login form only if access hasn't been granted yet
+if not st.session_state.entry_granted:
+    with st.form("auth_form"):
+        openai_api_key = st.text_input("OpenAI API Key", type="password")
+        password = st.text_input("Password", type="password")
+        submitted = st.form_submit_button("Submit")
+
+    if submitted:
+        if openai_api_key:
+            os.environ["OPENAI_API_KEY"] = openai_api_key
+            st.session_state.entry_granted = True
+            st.success("Access granted using your API key.")
+        elif password and password == st.secrets["entry_password"]:
+            os.environ["OPENAI_API_KEY"] = st.secrets["RF_API_KEY"]
+            st.session_state.entry_granted = True
+            st.success("Access granted using the provided password.")
+        else:
+            st.error("Invalid API key or password.")
+else:
+    st.success("Access granted. You may now use the app.")
+
+if st.session_state.entry_granted:
+    st.write(
     "Upload a document below and an OpenAI model will return a csv file that you can import to excel or google sheets. "
     "To use this app, you need to provide an OpenAI API key, which you can get [here](https://platform.openai.com/account/api-keys). "
     "Or, you can enter the passcode we provided to use ours."
 )
-
-entry_granted = False
-
-# Use a form to gate logic behind submission
-with st.form("auth_form"):
-    openai_api_key = st.text_input("OpenAI API Key", type="password")
-    password = st.text_input("Password", type="password")
-    submitted = st.form_submit_button("Submit")
-
-if submitted:
-    if openai_api_key:
-        os.environ["OPENAI_API_KEY"] = openai_api_key
-        entry_granted = True
-    elif password and password == st.secrets["entry_password"]:
-        os.environ["OPENAI_API_KEY"] = st.secrets["RF_API_KEY"]
-        entry_granted = True
-    else:
-        st.error("Invalid API key or password.")
-
-if entry_granted:
 
     # Let the user upload a file via `st.file_uploader`.
     uploaded_file = st.file_uploader(
